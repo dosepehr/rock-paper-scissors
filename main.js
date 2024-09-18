@@ -1,3 +1,4 @@
+const body = document.querySelector('body')
 const objects = [
   {
     object: '🪨',
@@ -16,15 +17,24 @@ const sizes = {
   w: window.innerWidth,
   h: window.innerHeight,
 };
-const body = document.querySelector('body')
+let objectsData = [];
 objects.forEach(object => {
   for (let i = 0; i < object.count; i++) {
     const randomCoords = { x: Math.random() * sizes.w, y: Math.random() * sizes.h }
-    const pElem = document.createElement('p')
-    pElem.classList.add('object')
-    pElem.style.top = `${randomCoords.y}px`
-    pElem.style.left = `${randomCoords.x}px`
-    pElem.innerHTML = object.object
-    body.appendChild(pElem)
+    objectsData.push({ content: object.object, ...randomCoords })
   }
 })
+
+
+const ObjectsGenerator = (objectsData) => {
+  objectsData.forEach(data => {
+    const pElem = document.createElement('p')
+    pElem.classList.add('object')
+    pElem.style.top = `${data.y}px`
+    pElem.style.left = `${data.x}px`
+    pElem.innerHTML = data.content
+    body.appendChild(pElem)
+  })
+}
+ObjectsGenerator(objectsData)
+
