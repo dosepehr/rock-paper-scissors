@@ -15,6 +15,23 @@ const objects = [
   },
 ]
 
+const ObjectsGenerator = (objectsData) => {
+  objectsData.forEach(data => {
+    const pElem = document.createElement('p')
+    pElem.classList.add('object')
+    pElem.style.top = `${data.y}px`
+    pElem.style.left = `${data.x}px`
+    pElem.innerHTML = data.content
+    container.appendChild(pElem)
+  })
+}
+
+const checkCollision = (obj1, obj2, threshold = 20) => {
+  const distance = Math.sqrt(Math.pow(obj1.x - obj2.x, 2) + Math.pow(obj1.y - obj2.y, 2))
+  console.log(distance)
+}
+
+
 const squareSize = 400;
 const sizes = {
   w: window.innerWidth,
@@ -28,36 +45,33 @@ let objectsData = [];
 
 objects.forEach(object => {
   for (let i = 0; i < object.count; i++) {
-    const randomCoords = { 
-      x: squareStartX + Math.random() * squareSize,  
-      y: squareStartY + Math.random() * squareSize  
+    const randomCoords = {
+      x: squareStartX + Math.random() * squareSize,
+      y: squareStartY + Math.random() * squareSize
     }
     objectsData.push({ content: object.object, ...randomCoords })
   }
 })
 
-const ObjectsGenerator = (objectsData) => {
-  objectsData.forEach(data => {
-    const pElem = document.createElement('p')
-    pElem.classList.add('object')
-    pElem.style.top = `${data.y}px`
-    pElem.style.left = `${data.x}px`
-    pElem.innerHTML = data.content
-    container.appendChild(pElem)
-  })
-}
 
 
 ObjectsGenerator(objectsData)
 
 const changeCoords = setInterval(() => {
-  container.innerHTML = '';  
-  
+  container.innerHTML = '';
+
   const newCoords = objectsData.map((obj) => {
     const newX = Math.max(squareStartX, Math.min(squareStartX + squareSize, obj.x + ((Math.random() - 0.5) * 10)));
     const newY = Math.max(squareStartY, Math.min(squareStartY + squareSize, obj.y + ((Math.random() - 0.5) * 10)));
     return { content: obj.content, x: newX, y: newY };
   });
+
+  for (let i = 0; i < objectsData.length; i++) {
+    for (let j = i + 1; j < objectsData.length; j++) {
+      checkCollision(objectsData[i], objectsData[j])
+    }
+  }
+
 
   ObjectsGenerator(newCoords);
 }, 100);
