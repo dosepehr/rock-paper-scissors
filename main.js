@@ -1,14 +1,14 @@
 const objects = [
   {
-    object: 'r',
+    object: '🪨',
     count: 20
   },
   {
-    object: 'p',
+    object: '📄',
     count: 20
   },
   {
-    object: 's',
+    object: '✂️',
     count: 20
   },
 ]
@@ -16,10 +16,15 @@ const sizes = {
   w: window.innerWidth,
   h: window.innerHeight,
 };
-
+const body = document.querySelector('body')
 objects.forEach(object => {
   for (let i = 0; i < object.count; i++) {
-    const randomPosition = { x: Math.random() * sizes.w, y: Math.random() * sizes.h }
-    console.log(object.object, randomPosition)
+    const randomCoords = { x: Math.random() * sizes.w, y: Math.random() * sizes.h }
+    const pElem = document.createElement('p')
+    pElem.classList.add('object')
+    pElem.style.top = `${randomCoords.y}px`
+    pElem.style.left = `${randomCoords.x}px`
+    pElem.innerHTML = object.object
+    body.appendChild(pElem)
   }
 })
