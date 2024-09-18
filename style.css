@@ -8,6 +8,10 @@ body {
   overflow: hidden;
 }
 
+#objectContainer {
+  position: relative;
+}
+
 .object {
   position: absolute;
 }

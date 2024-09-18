@@ -1,4 +1,5 @@
 const body = document.querySelector('body')
+const container = document.querySelector('#objectContainer')
 const objects = [
   {
     object: '🪨',
@@ -25,7 +26,6 @@ objects.forEach(object => {
   }
 })
 
-
 const ObjectsGenerator = (objectsData) => {
   objectsData.forEach(data => {
     const pElem = document.createElement('p')
@@ -33,8 +33,18 @@ const ObjectsGenerator = (objectsData) => {
     pElem.style.top = `${data.y}px`
     pElem.style.left = `${data.x}px`
     pElem.innerHTML = data.content
-    body.appendChild(pElem)
+    container.appendChild(pElem)
   })
 }
+
+
 ObjectsGenerator(objectsData)
 
+const changeCoords = setInterval(() => {
+  container.innerHTML = '';
+  const newCoords = objectsData.map((obj) => {
+    return { content: obj.content, x: obj.x + ((Math.random() - 0.5) * 10), y: obj.y + ((Math.random() - 0.5) * 10) }
+  });
+
+  ObjectsGenerator(newCoords)
+}, 100);
